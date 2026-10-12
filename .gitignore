@@ -7,3 +7,10 @@ dist
 *.log
 Thumbs.db
 .DS_Store
+
+# not for the public repo
+AGENTS.md
+CLAUDE.md
+HANDOFF.md
+modern-dental/
+*.zip
