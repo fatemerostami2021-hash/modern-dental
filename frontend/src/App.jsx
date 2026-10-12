@@ -25,12 +25,12 @@ function Wave({ text, lang, step = 0.06 }) {
   );
 }
 
-const THEMES = [['light', 'Light'], ['dark', 'Dark'], ['rose', 'Rose Gold']];
+const THEMES = [['light', 'Light'], ['dark', 'Dark']];
 function LogoMark() {
   const [ok, setOk] = useState(true);
   return <span className="mark">{ok ? <img className="logo-img" src="/images/logo/logo.webp" alt="" onError={() => setOk(false)} /> : <Spark />}<i className="tw t1" /><i className="tw t2" /></span>;
 }
-const SiteBackground = () => <div className="sitebg" aria-hidden="true"><i className="blob b1" /><i className="blob b2" /><i className="blob b3" /><i className="grid" /><i className="beam" /></div>;
+const SiteBackground = () => <div className="sitebg" aria-hidden="true"><i className="blob b1" /><i className="blob b2" /><i className="blob b3" /><i className="grid" /><i className="sun" /></div>;
 
 function Header() {
   const { lang, theme, setTheme, cycleTheme } = useStore();

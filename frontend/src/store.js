@@ -3,5 +3,5 @@ import { create } from 'zustand';
 export const useStore = create((set) => ({
   lang: 'en', theme: 'light',
   setTheme: (theme) => set({ theme }),
-  cycleTheme: () => set((s) => ({ theme: s.theme === 'light' ? 'dark' : s.theme === 'dark' ? 'rose' : 'light' })),
+  cycleTheme: () => set((s) => ({ theme: s.theme === 'light' ? 'dark' : 'light' })),
 }));

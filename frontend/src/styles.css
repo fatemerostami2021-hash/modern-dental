@@ -171,7 +171,6 @@ html{scroll-padding-top:100px}
 /* --- site-wide background, blinking logo, Rose Gold theme --- */
 :root{--b1:#bfece4;--b2:#d4ecff;--b3:#e6fff4;--bgrid:rgba(15,61,62,.08)}
 :root[data-theme=dark]{--b1:#0f6b66;--b2:#0b3f5a;--b3:#0a4f45;--bgrid:rgba(150,255,235,.07)}
-:root[data-theme=rose]{--bg:#fff6f8;--surface:#fff;--ink:#4a2030;--text:#7b5463;--teal:#a9731b;--teal-ink:#fff;--tint:#fde4ec;--line:#f1d3dc;--band:#fdeef2;--shadow:0 12px 40px rgba(122,50,80,.14);--b1:#ffc3d4;--b2:#f6dc94;--b3:#ffe1ea;--bgrid:rgba(122,50,80,.08)}
 .sitebg{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
 .blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55;will-change:transform}
 .b1{width:46vw;height:46vw;left:-10vw;top:-12vw;background:var(--b1);animation:d1 38s ease-in-out infinite alternate}
@@ -184,9 +183,21 @@ html{scroll-padding-top:100px}
 .mark:has(.logo-img){background:none;width:auto;min-width:44px}.logo-img{height:44px;width:auto;max-width:130px;object-fit:contain;animation:logoblink 2.4s ease-in-out infinite}
 @keyframes logoblink{0%,100%{filter:drop-shadow(0 0 0 transparent) brightness(1);opacity:1}45%{filter:drop-shadow(0 0 10px var(--teal)) brightness(1.3);opacity:.88}55%{opacity:1}}
 .pill button{white-space:nowrap}
-:root[data-theme=rose] .cine-pin{background:linear-gradient(160deg,#fff8fa,#fde4ec 55%,#f9dcc0)}
-:root[data-theme=rose] .mist{background:radial-gradient(circle at 70% 55%,rgba(244,170,195,.45),transparent 55%),radial-gradient(circle at 15% 90%,rgba(255,236,190,.7),transparent 45%)}
-:root[data-theme=rose] .rays{background:repeating-conic-gradient(from 150deg at 78% 8%,rgba(255,232,180,.8) 0 2.5deg,transparent 2.5deg 10deg)}
-:root[data-theme=rose] .ctaband,:root[data-theme=rose] .sfoot{background:#4a1f33}
-:root[data-theme=rose] .btn.primary{background:linear-gradient(135deg,#d9a73f,#f0cf7a 50%,#c9952c);color:#3a1a28;border-color:#c9952c}
-:root[data-theme=rose] .mark svg{color:#a9731b}
+/* --- themes: Light = light blue + rose gold, Dark = pomegranate + white + gold + black --- */
+:root{--bg:#f3f8ff;--surface:#fff;--ink:#1b3452;--text:#4c647c;--teal:#a9566a;--teal-ink:#fff;--tint:#e4efff;--line:#d3e2f4;--band:#eaf3ff;--warn:#a1361f;--shadow:0 12px 40px rgba(27,52,82,.12);--b1:#b9d6ff;--b2:#f2c5bc;--b3:#d6e6ff;--bgrid:rgba(27,52,82,.07);--ray:rgba(236,176,160,.34);--lh:165deg}
+:root[data-theme=dark]{--bg:#0b0508;--surface:#170a10;--ink:#fff6f2;--text:#e2c7cd;--teal:#e2b650;--teal-ink:#1a0a0f;--tint:#2c0f1a;--line:#4a1e2b;--band:#11070b;--warn:#ff9c85;--shadow:0 12px 40px rgba(0,0,0,.55);--b1:#a3122f;--b2:#c9a24a;--b3:#5a0b1f;--bgrid:rgba(255,220,160,.07);--ray:rgba(230,190,90,.2);--lh:-135deg}
+.btn.primary{background:linear-gradient(135deg,#e6ac9f,#f5d2c3 50%,#cf8a93);color:#3a1d2a;border-color:#cf8a93}
+:root[data-theme=dark] .btn.primary{background:linear-gradient(135deg,#9e0f2e,#d61f4d);color:#fff;border-color:#e2b650}
+.btn.mint{background:#f0c5b5;color:#3a1d2a;border-color:#f0c5b5}:root[data-theme=dark] .btn.mint{background:#e2b650;color:#1a0a0f;border-color:#e2b650}
+.ctaband,.sfoot{background:#1b3452}:root[data-theme=dark] .ctaband,:root[data-theme=dark] .sfoot{background:#14060b}
+.cine-pin{background:linear-gradient(160deg,#f6faff,#e3effd 55%,#f6dcd6)}
+:root[data-theme=dark] .cine-pin{background:linear-gradient(160deg,#0b0508,#2a0612 60%,#4a0b1d)}
+.mist{background:radial-gradient(circle at 70% 55%,rgba(185,214,255,.55),transparent 55%),radial-gradient(circle at 15% 90%,rgba(242,197,188,.6),transparent 45%)}
+:root[data-theme=dark] .mist{background:radial-gradient(circle at 70% 55%,rgba(163,18,47,.5),transparent 55%),radial-gradient(circle at 15% 90%,rgba(201,162,74,.25),transparent 45%)}
+.rays{background:repeating-conic-gradient(from 150deg at 78% 8%,var(--ray) 0 2.5deg,transparent 2.5deg 10deg);animation:spin 90s linear infinite}
+:root[data-theme=dark] .rays{background:repeating-conic-gradient(from 150deg at 78% 8%,rgba(230,190,90,.2) 0 2.5deg,transparent 2.5deg 10deg)}
+/* whole-site rotating sun rays (apex in the top-right corner) */
+.sitebg .sun{position:absolute;width:120vmax;height:120vmax;top:-60vmax;right:-60vmax;background:repeating-conic-gradient(from 0deg,var(--ray) 0 3deg,transparent 3deg 12deg);-webkit-mask-image:radial-gradient(circle,#000 0,transparent 55%);mask-image:radial-gradient(circle,#000 0,transparent 55%);animation:spin 160s linear infinite;will-change:transform}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes logoblink{0%,100%{filter:hue-rotate(var(--lh)) drop-shadow(0 0 0 transparent) brightness(1);opacity:1}45%{filter:hue-rotate(var(--lh)) drop-shadow(0 0 10px var(--teal)) brightness(1.3);opacity:.88}55%{opacity:1}}
+.cw{margin-inline-end:.28em}
