@@ -1,0 +1,135 @@
+import { lazy, Suspense, useEffect, useState } from 'react';
+import { Routes, Route, Link, NavLink, useParams, useLocation } from 'react-router-dom';
+import { useStore } from './store.js';
+import { Blocks, SiteFooter } from './Sections.jsx';
+import { UI } from './content.js';
+import { PAGES, ORDER } from './copy.js';
+import ErrorBoundary from './ErrorBoundary.jsx';
+
+const PageScene = lazy(() => import('./PageScenes.jsx'));
+const CinematicHero = lazy(() => import('./CinematicHero.jsx'));
+const webgl = () => { try { return !!document.createElement('canvas').getContext('webgl2'); } catch { return false; } };
+function useReady() {
+  const [r, s] = useState(false);
+  useEffect(() => { const ric = window.requestIdleCallback; const id = ric ? ric(() => s(true), { timeout: 300 }) : setTimeout(() => s(true), 200); return () => (ric ? window.cancelIdleCallback(id) : clearTimeout(id)); }, []);
+  return r && webgl();
+}
+const Spark = () => <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round"><path d="M12 2l2.2 6.8L21 11l-6.8 2.2L12 20l-2.2-6.8L3 11l6.8-2.2z" /></svg>;
+
+function Wave({ text, lang, step = 0.06 }) {
+  const parts = lang === 'fa' ? text.split(' ') : [...text];   // Persian is animated by word so letters never get split apart
+  return (
+    <span className="wave" aria-label={text}>
+      {parts.map((w, i) => <span key={i} aria-hidden="true" style={{ animationDelay: `${i * step}s` }}>{w === ' ' ? '\u00A0' : w}{lang === 'fa' && i < parts.length - 1 ? ' ' : ''}</span>)}
+    </span>
+  );
+}
+
+const THEMES = [['light', 'Light'], ['dark', 'Dark'], ['rose', 'Rose Gold']];
+function LogoMark() {
+  const [ok, setOk] = useState(true);
+  return <span className="mark">{ok ? <img className="logo-img" src="/images/logo/logo.webp" alt="" onError={() => setOk(false)} /> : <Spark />}<i className="tw t1" /><i className="tw t2" /></span>;
+}
+const SiteBackground = () => <div className="sitebg" aria-hidden="true"><i className="blob b1" /><i className="blob b2" /><i className="blob b3" /><i className="grid" /><i className="beam" /></div>;
+
+function Header() {
+  const { lang, theme, setTheme, cycleTheme } = useStore();
+  const u = UI[lang];
+  const [menu, setMenu] = useState(false);
+  const { pathname } = useLocation();
+  useEffect(() => setMenu(false), [pathname]);
+  return (
+    <header className="top">
+      <div className="wrap bar">
+        <Link to="/" className="logo" aria-label={u.brand}>
+          <LogoMark />
+          <span><b><Wave text={u.brand} lang={lang} step={0.07} /></b><small>{u.sub}</small></span>
+        </Link>
+        <nav className={'nav' + (menu ? ' open' : '')} aria-label="Main">
+          {ORDER.map((s) => <NavLink key={s} to={'/' + s} end className={({ isActive }) => (isActive ? 'act' : '')}><Wave text={PAGES[s].nav[lang]} lang={lang} step={0.035} /></NavLink>)}
+          <button className="btn ghost show-sm" onClick={cycleTheme}>Theme: {THEMES.find(([k]) => k === theme)[1]}</button>
+          <Link to="/contact#request" className="btn primary show-sm">{u.book} ↗</Link>
+        </nav>
+        <div className="tools">
+          <div className="pill hide-sm" role="group" aria-label="Theme">
+            {THEMES.map(([k, n]) => <button key={k} className={theme === k ? 'on' : ''} onClick={() => setTheme(k)}>{n}</button>)}
+          </div>
+          <Link to="/contact#request" className="btn primary hide-sm">{u.book} ↗</Link>
+          <button className="burger" aria-expanded={menu} aria-label={u.menu} onClick={() => setMenu(!menu)}>{menu ? '✕' : '☰'}</button>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+function Stage({ kind }) {
+  const ready = useReady();
+  const { lang, theme } = useStore();
+  const u = UI[lang];
+  return (
+    <div className="stage" aria-hidden="false">
+      <div className="disc" />
+      <svg className="orbit" viewBox="0 0 400 300"><ellipse cx="200" cy="150" rx="190" ry="105" /></svg>
+      <i className="orb o1" /><i className="orb o2" />
+      <div className="cv">{ready && <ErrorBoundary inline><Suspense fallback={null}><PageScene kind={kind} theme={theme} /></Suspense></ErrorBoundary>}</div>
+      <span className="spark"><Spark /></span>
+      <div className="float"><span className="ico">♡</span><div><b>{u.cardT}</b><small>{u.cardD}</small></div></div>
+    </div>
+  );
+}
+
+function setMeta(attr, key, val) {
+  const el = document.head.querySelector(`meta[${attr}="${key}"]`) || document.head.appendChild(Object.assign(document.createElement('meta'), {}));
+  el.setAttribute(attr, key); el.setAttribute('content', val);
+}
+function applySeo(slug, lang) {
+  const [title, desc] = PAGES[slug].seo[lang];
+  document.title = title;
+  setMeta('name', 'description', desc); setMeta('property', 'og:title', title); setMeta('property', 'og:description', desc); setMeta('property', 'og:type', 'website'); setMeta('property', 'og:locale', lang === 'fa' ? 'fa_IR' : 'en_US');
+  const link = document.head.querySelector('link[rel=canonical]') || document.head.appendChild(Object.assign(document.createElement('link'), { rel: 'canonical' }));
+  link.href = window.location.origin + (slug ? '/' + slug : '/');
+}
+
+function Page({ slug }) {
+  const { lang } = useStore();
+  const { hash } = useLocation();
+  const c = PAGES[slug];
+  const u = UI[lang];
+  useEffect(() => { if (c) applySeo(slug, lang); else document.title = u.nf; }, [slug, lang]);
+  useEffect(() => { if (hash) { const id = setTimeout(() => document.querySelector(hash)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80); return () => clearTimeout(id); } window.scrollTo(0, 0); }, [slug, hash]);
+  if (!c) return <div className="wrap sec"><h1>{u.nf}</h1><Link to="/">←</Link></div>;
+  const H = c.hero[lang];
+  return (
+    <>
+      {slug && <nav className="wrap crumb" aria-label="Breadcrumb"><Link to="/">{PAGES[''].nav[lang]}</Link><span>/</span><span>{c.nav[lang]}</span></nav>}
+      {slug === '' ? <Suspense fallback={<div className="cine-ph" />}><CinematicHero /></Suspense> : (
+        <section className="wrap hero">
+          <div className="copy">
+            <span className="badge">{H.eyebrow}</span>
+            <h1>{H.h.map((line, i) => <span key={i} className={i ? 'em' : ''}>{line.split(' ').map((w, j) => <span key={j}><span className="vw" style={{ animationDelay: `${(i * 4 + j) * 0.15}s` }}>{w}</span>{' '}</span>)}<br /></span>)}</h1>
+            <p className="lead">{H.lead}</p>
+            <div className="cta"><Link className="btn primary lg" to={H.to1 || '/contact#request'}>{H.cta1} ↗</Link>{H.cta2 && <Link className="btn ghost lg" to={H.to2 || '/services'}>{H.cta2} →</Link>}</div>
+            {H.note && <p className="fine">{H.note}</p>}
+          </div>
+          {c.scene !== 'home' && <Stage kind={c.scene} />}
+        </section>
+      )}
+      <Blocks blocks={c.blocks} lang={lang} photo={c.photo} />
+    </>
+  );
+}
+const Slug = () => <Page slug={useParams().slug} />;
+
+export default function App() {
+  const { lang, theme } = useStore();
+  useEffect(() => { const h = document.documentElement; h.lang = lang; h.dir = lang === 'fa' ? 'rtl' : 'ltr'; h.dataset.theme = theme; }, [lang, theme]);
+  const u = UI[lang];
+  return (
+    <>
+      <SiteBackground />
+      <Header />
+      <main><Routes><Route path="/" element={<Page slug="" />} /><Route path="/:slug" element={<Slug />} /></Routes></main>
+      <SiteFooter />
+    </>
+  );
+}
