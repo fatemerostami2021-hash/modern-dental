@@ -7,4 +7,10 @@
   <url><loc>https://YOUR-DOMAIN.example/about</loc></url>
   <url><loc>https://YOUR-DOMAIN.example/faqs</loc></url>
   <url><loc>https://YOUR-DOMAIN.example/contact</loc></url>
+  <url><loc>https://YOUR-DOMAIN.example/services/preventive-dentistry</loc></url>
+  <url><loc>https://YOUR-DOMAIN.example/services/restorative-dentistry</loc></url>
+  <url><loc>https://YOUR-DOMAIN.example/services/orthodontic-care</loc></url>
+  <url><loc>https://YOUR-DOMAIN.example/services/gum-periodontal-care</loc></url>
+  <url><loc>https://YOUR-DOMAIN.example/services/oral-surgery-wisdom-teeth</loc></url>
+  <url><loc>https://YOUR-DOMAIN.example/services/dental-implants</loc></url>
 </urlset>

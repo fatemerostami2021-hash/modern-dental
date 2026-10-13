@@ -13,7 +13,7 @@ const P = {
   clock: 'M12 4a8 8 0 100 16 8 8 0 000-16zM12 8v4l3 2', clip: 'M9 4h6v3H9zM7 6H5v14h14V6h-2M9 14l2 2 4-4', mail: 'M4 6h16v12H4zM4 7l8 6 8-6',
 };
 const Ico = ({ n, s = 22 }) => <svg viewBox="0 0 24 24" width={s} height={s} fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={P[n]} /></svg>;
-const Head = ({ k, h, p }) => <div className="shead">{k && <span className="eyebrow">{k}</span>}<h2>{h}</h2>{p && <p className="sub">{p}</p>}</div>;
+export const Head = ({ k, h, p }) => <div className="shead">{k && <span className="eyebrow">{k}</span>}<h2>{h}</h2>{p && <p className="sub">{p}</p>}</div>;
 
 // Own photo goes in frontend/public/images/<name>.jpg; until then a labelled placeholder shows.
 function Photo({ src, label }) {
@@ -60,12 +60,37 @@ function BeforeAfter({ L }) {
 }
 
 const MORE = { en: 'Learn more' };
+
+export const Card = ({ t, d, to }) => <article className="opt"><h3>{t}</h3><p>{d}</p>{to && <Link className="more" to={to}>Learn more →</Link>}</article>;
+
+// Cards that glide along a rail: snap scrolling, arrows, drag, gentle auto-advance (pauses on hover / focus / touch).
+export function Rail({ children }) {
+  const el = useRef(), bar = useRef(), hold = useRef(false), drag = useRef(null);
+  const step = (d) => { const e = el.current, w = e.firstElementChild ? e.firstElementChild.getBoundingClientRect().width + 20 : 300; e.scrollBy({ left: d * w, behavior: 'smooth' }); };
+  const prog = () => { const e = el.current, m = e.scrollWidth - e.clientWidth; if (bar.current) bar.current.style.width = (m > 0 ? 18 + 82 * (e.scrollLeft / m) : 100) + '%'; };
+  useEffect(() => {
+    prog();
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const id = setInterval(() => { if (hold.current) return; const e = el.current; if (e.scrollLeft >= e.scrollWidth - e.clientWidth - 4) e.scrollTo({ left: 0, behavior: 'smooth' }); else step(1); }, 4200);
+    return () => clearInterval(id);
+  }, []);
+  const down = (e) => { if (e.pointerType === 'mouse') drag.current = { x: e.clientX, l: el.current.scrollLeft, m: false }; };
+  const move = (e) => { const d = drag.current; if (!d) return; const dx = e.clientX - d.x; if (Math.abs(dx) > 5) { d.m = true; el.current.dataset.drag = '1'; el.current.style.scrollSnapType = 'none'; el.current.scrollLeft = d.l - dx; } };
+  const up = () => { drag.current = null; if (el.current) { el.current.style.scrollSnapType = ''; setTimeout(() => { if (el.current) el.current.dataset.drag = ''; }, 0); } };
+  return (
+    <div className="railwrap" onPointerEnter={() => (hold.current = true)} onPointerLeave={() => { hold.current = false; up(); }} onFocus={() => (hold.current = true)} onBlur={() => (hold.current = false)}>
+      <div className="rail" ref={el} onScroll={prog} onPointerDown={down} onPointerMove={move} onPointerUp={up} onClickCapture={(e) => { if (el.current.dataset.drag === '1') { e.preventDefault(); e.stopPropagation(); } }}>{children}</div>
+      <div className="rail-ui"><button className="btn ghost rbtn" aria-label="Previous" onClick={() => step(-1)}>←</button><span className="rail-bar"><i ref={bar} /></span><button className="btn ghost rbtn" aria-label="Next" onClick={() => step(1)}>→</button></div>
+    </div>
+  );
+}
+
 function Block({ b, lang, photo }) {
   const L = b[lang] || {};
   const T_ = T[lang];
   switch (b.t) {
     case 'band': return <section className="band"><div className="wrap sec"><Head h={L.h} p={L.p} /></div></section>;
-    case 'cards': return <section id={b.id} className="wrap sec"><Head h={L.h} p={L.p} /><div className="cards3">{L.items.map(([t, d, to]) => <article className="opt" key={t}><h3>{t}</h3><p>{d}</p>{to && <Link className="more" to={to}>{MORE[lang]} →</Link>}</article>)}</div></section>;
+    case 'cards': { const cs = L.items.map(([t, d, to]) => <Card key={t} t={t} d={d} to={to} />); return <section id={b.id} className="wrap sec"><Head h={L.h} p={L.p} />{b.rail ? <Rail>{cs}</Rail> : <div className="cards3">{cs}</div>}</section>; }
     case 'steps': return <section className="wrap sec"><Head h={L.h} /><div className="steps">{L.items.map(([t, d], i) => <div key={t}><span className="num">{String(i + 1).padStart(2, '0')}</span><h3>{t}</h3><p>{d}</p></div>)}</div>{L.note && <p className="fine">{L.note}</p>}</section>;
     case 'intro': return (
       <section className="wrap sec two">

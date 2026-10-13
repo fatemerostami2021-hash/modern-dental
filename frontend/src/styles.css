@@ -221,3 +221,22 @@ html{scroll-padding-top:100px}
 .cards2>.rv:nth-child(odd){--x:-46px}.cards2>.rv:nth-child(even){--x:46px}
 .shead.rv{--y:28px}
 .opt.rv.done:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
+/* --- rail, timeline, landing pages --- */
+.railwrap{position:relative}
+.rail{display:flex;gap:1.25rem;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:.6rem .25rem 1.2rem;cursor:grab}
+.rail::-webkit-scrollbar{display:none}.rail[data-drag="1"]{cursor:grabbing}
+.rail>*{flex:0 0 min(330px,82%);scroll-snap-align:start}
+.rail>.rv{--x:80px;--y:0px}
+.opt .more::after{content:'';position:absolute;inset:0;border-radius:inherit}
+.rail-ui{display:flex;align-items:center;gap:1rem;margin-top:.4rem}.rail-bar{flex:1;height:4px;border-radius:4px;background:var(--line);overflow:hidden}.rail-bar i{display:block;height:100%;width:18%;border-radius:4px;background:linear-gradient(90deg,var(--aqua),var(--teal));transition:width .3s}
+.rbtn{min-width:44px;padding:0;justify-content:center}
+.svc-hero .lead{margin:0 0 1rem;font-size:1.08rem}.svc-hero .cta{margin-top:1.4rem}
+.two aside.opt{align-self:start;position:sticky;top:96px}.two aside.opt .btn{align-self:flex-start}
+.tick{list-style:none;padding:0;margin:1rem 0;display:grid;gap:.7rem}.tick li{padding-inline-start:2rem;position:relative}.tick li::before{content:'✓';position:absolute;inset-inline-start:0;color:var(--aqua);font-weight:700}
+.tl{--p:0;position:relative;list-style:none;margin:1.5rem 0 0;padding:0;display:grid;gap:2.4rem}
+.tl::before,.tl::after{content:'';position:absolute;inset-inline-start:21px;top:0;width:3px;border-radius:3px}
+.tl::before{bottom:0;background:var(--line)}.tl::after{height:calc(var(--p) * 100%);background:linear-gradient(var(--aqua),var(--teal))}
+.tl-step{display:flex;gap:1.2rem;align-items:flex-start;opacity:.4;transform:translateX(14px);transition:opacity .5s,transform .5s}.tl-step.on{opacity:1;transform:none}
+.tl-dot{flex:none;z-index:1;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:700;background:var(--surface);color:var(--ink);border:2px solid var(--line);transition:background .4s,box-shadow .4s}
+.tl-step.on .tl-dot{background:var(--teal);color:var(--teal-ink);border-color:var(--teal);box-shadow:0 0 0 6px color-mix(in srgb,var(--aqua) 25%,transparent)}
+.tl h3{font-size:1.2rem;margin:.1rem 0 .3rem}.tl p{margin:0}

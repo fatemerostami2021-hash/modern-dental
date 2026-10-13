@@ -132,7 +132,64 @@ function Contact() {
     </group>
   );
 }
-const SCENES = { ortho: Ortho, surgery: Surgery, services: Services, about: About, faqs: Faq, contact: Contact };
+/* Preventive: a glass shield protecting a tooth */
+const shieldGeo = (() => { const sh = new THREE.Shape(); sh.moveTo(0, 1.5); sh.lineTo(1.15, 1.05); sh.lineTo(1.15, 0.1); sh.quadraticCurveTo(1.1, -1, 0, -1.6); sh.quadraticCurveTo(-1.1, -1, -1.15, 0.1); sh.lineTo(-1.15, 1.05); sh.closePath(); return new THREE.ExtrudeGeometry(sh, { depth: 0.35, bevelEnabled: true, bevelThickness: 0.08, bevelSize: 0.08, bevelSegments: 4 }); })();
+function Prevent() {
+  const r = useRef(), t = useRef();
+  useFrame(({ clock }) => { const k = clock.elapsedTime; r.current.rotation.y = k * 0.7; t.current.rotation.y = -k * 0.5; });
+  return (
+    <group>
+      <mesh geometry={shieldGeo} position={[0, 0, -0.2]}><Gl o={0.35} /></mesh>
+      <group ref={t} position={[0, -0.55, 0]} scale={0.95}>
+        <mesh geometry={crown} position={[0, 0.55, 0]}><En /></mesh>
+        {[[-0.3, rootL], [0.3, rootR]].map(([x, g]) => <mesh key={x} geometry={g} position={[x, -0.05, 0]}><En /></mesh>)}
+      </group>
+      <group ref={r} rotation={[1.2, 0, 0]}><mesh><torusGeometry args={[1.9, 0.04, 12, 96]} /><Tur /></mesh></group>
+    </group>
+  );
+}
+/* Restorative: a crown settles onto a prepared tooth */
+function Restore() {
+  const cap = useRef();
+  useFrame(({ clock }) => { cap.current.position.y = 0.5 + (0.5 + 0.5 * Math.sin(clock.elapsedTime * 1.1)) * 1.1; });
+  return (
+    <group position={[0, -0.5, 0]} scale={1.2}>
+      {[[-0.3, rootL], [0.3, rootR]].map(([x, g]) => <mesh key={x} geometry={g} position={[x, -0.05, 0]}><En /></mesh>)}
+      <mesh geometry={crown} position={[0, 0.5, 0]} scale={0.8}><meshPhysicalMaterial color="#e8c77a" roughness={0.4} clearcoat={0.4} /></mesh>
+      <mesh ref={cap} geometry={crown} position={[0, 1.2, 0]} scale={0.98}><Gl o={0.5} c="#ffffff" /></mesh>
+      <mesh position={[0, 0.05, 0.1]} rotation={[Math.PI / 2, 0, 0]}><torusGeometry args={[0.7, 0.03, 8, 48]} /><Tur /></mesh>
+    </group>
+  );
+}
+/* Gum care: gums shift from inflamed to healthy around a row of teeth */
+const GT = Array.from({ length: 9 }, (_, i) => { const x = (i - 4) * 0.62; return { x, z: -0.1 * x * x, ry: Math.atan(0.2 * x) }; });
+function Gum() {
+  const m = useRef();
+  const gum = useMemo(() => new THREE.TubeGeometry(arch(0.62, -0.1, 15, 3.2), 60, 0.4, 12), []);
+  const A = useMemo(() => new THREE.Color('#c43c58'), []), B = useMemo(() => new THREE.Color('#f4a7b5'), []);
+  useFrame(({ clock }) => { m.current.color.copy(A).lerp(B, 0.5 + 0.5 * Math.sin(clock.elapsedTime * 0.9)); });
+  return (
+    <group position={[0, -0.3, 0]}>
+      <mesh geometry={gum}><meshPhysicalMaterial ref={m} color="#f4a7b5" roughness={0.3} clearcoat={0.8} /></mesh>
+      {GT.map((o, i) => <mesh key={i} geometry={crown} position={[o.x, 0, o.z]} rotation={[0, o.ry, Math.PI]} scale={[0.3, 0.42, 0.3]}><En /></mesh>)}
+    </group>
+  );
+}
+/* Oral surgery / wisdom teeth: an impacted, tilted tooth in the jaw */
+function Wisdom() {
+  const ring = useRef();
+  useFrame(({ clock }) => { const t = clock.elapsedTime; ring.current.rotation.z = t; ring.current.scale.setScalar(1 + 0.1 * Math.sin(t * 2)); });
+  return (
+    <group position={[0, -0.2, 0]}>
+      <RoundedBox args={[4.8, 1.7, 2.4]} radius={0.2} smoothness={4} position={[0, -1.05, 0]}><Gl o={0.34} c="#eadfc6" /></RoundedBox>
+      <RoundedBox args={[4.8, 0.34, 2.4]} radius={0.15} smoothness={4} position={[0, 0.05, 0]}><Gl o={0.5} c="#f2a0ab" /></RoundedBox>
+      {[-1.8, -0.6].map((x) => <mesh key={x} geometry={crown} position={[x, 0.8, 0]} scale={[0.55, 0.6, 0.5]}><En /></mesh>)}
+      <group position={[1.7, -0.15, 0]} rotation={[0, 0, -0.95]}><mesh geometry={crown} scale={[0.6, 0.65, 0.55]}><En /></mesh></group>
+      <mesh ref={ring} position={[1.7, 0, 0]}><torusGeometry args={[0.85, 0.04, 12, 64]} /><Tur /></mesh>
+    </group>
+  );
+}
+const SCENES = { ortho: Ortho, surgery: Surgery, services: Services, about: About, faqs: Faq, contact: Contact, prevent: Prevent, restore: Restore, gum: Gum, wisdom: Wisdom };
 
 export default function PageScene({ kind, theme }) {
   setPalette(theme);

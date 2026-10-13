@@ -40,25 +40,26 @@ export const PAGES = {
       [
        "Preventive Care",
        "Protect your oral health with regular assessments, personalized guidance, and early attention to potential concerns.",
-       "/services"
+       "/services/preventive-dentistry"
       ],
       [
        "Orthodontics",
        "Explore treatment options designed to improve dental alignment, bite function, and smile balance.",
-       "/orthodontics"
+       "/services/orthodontic-care"
       ],
       [
        "Gum & Jaw Care",
        "Address concerns involving gum health, wisdom teeth, oral surgery, and jaw function through appropriate clinical assessment.",
-       "/surgery"
+       "/services/gum-periodontal-care"
       ],
       [
        "Restorative Dentistry",
        "Explore suitable options for restoring damaged or missing teeth and supporting everyday oral function.",
-       "/services"
+       "/services/restorative-dentistry"
       ]
      ]
-    }
+    },
+    "rail": true
    },
    {
     "t": "ba"
@@ -266,34 +267,37 @@ export const PAGES = {
      "items": [
       [
        "Preventive Dentistry",
-       "Routine assessments and personalized oral-health guidance to help identify concerns early and maintain healthy habits."
+       "Routine assessments and personalized oral-health guidance to help identify concerns early and maintain healthy habits.",
+       "/services/preventive-dentistry"
       ],
       [
        "Restorative Dentistry",
-       "Evaluation of options for repairing damaged teeth and restoring dental function, depending on the condition of each tooth."
+       "Evaluation of options for repairing damaged teeth and restoring dental function, depending on the condition of each tooth.",
+       "/services/restorative-dentistry"
       ],
       [
        "Orthodontic Care",
        "Assessment and treatment planning for dental alignment and bite-related concerns.",
-       "/orthodontics"
+       "/services/orthodontic-care"
       ],
       [
        "Gum & Periodontal Care",
        "Evaluation of gum inflammation, bleeding, recession, and other periodontal concerns.",
-       "/surgery"
+       "/services/gum-periodontal-care"
       ],
       [
        "Oral Surgery & Wisdom Teeth",
        "Assessment of teeth or oral conditions that may require surgical management.",
-       "/surgery"
+       "/services/oral-surgery-wisdom-teeth"
       ],
       [
        "Dental Implants & Tooth Replacement",
        "Evaluation of options for replacing missing teeth, including suitability, planning, and maintenance considerations.",
-       "/surgery"
+       "/services/dental-implants"
       ]
      ]
-    }
+    },
+    "rail": true
    },
    {
     "t": "intro",
