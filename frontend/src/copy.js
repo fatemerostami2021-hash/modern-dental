@@ -18,8 +18,8 @@ export const PAGES = {
   "photo": "/images/home/clinic.webp",
   "seo": {
    "en": [
-    "Dr. Saeed Rostami Dental Clinic | Personalized Dental Care",
-    "Thoughtful, personalized dental care with clear explanations and considered treatment options. Book a consultation with Dr. Saeed Rostami."
+    "Grand Dental Clinic | Personalized Dental Care",
+    "Thoughtful, personalized dental care with clear explanations and considered treatment options. Book a consultation with Grand Dental Clinic."
    ]
   },
   "hero": {},
@@ -83,7 +83,7 @@ export const PAGES = {
   "photo": "/images/home/Orthodontics.webp",
   "seo": {
    "en": [
-    "Orthodontics: Braces & Clear Aligners | Dr. Saeed Rostami",
+    "Orthodontics: Braces & Clear Aligners | Grand Dental Clinic",
     "Orthodontic assessment and treatment planning for crowding, spacing and bite concerns, including fixed braces and clear aligners."
    ]
   },
@@ -173,7 +173,7 @@ export const PAGES = {
   "photo": "/images/home/Dental-Surgery-jaw.webp",
   "seo": {
    "en": [
-    "Gum, Jaw & Dental Surgery | Dr. Saeed Rostami",
+    "Gum, Jaw & Dental Surgery | Grand Dental Clinic",
     "Assessment of gum health, wisdom teeth, dental implants and jaw pain, with clear options explained before any procedure."
    ]
   },
@@ -318,7 +318,7 @@ export const PAGES = {
   "photo": "/images/home/About.webp",
   "seo": {
    "en": [
-    "About Dr. Saeed Rostami Dental Clinic",
+    "About Grand Dental Clinic",
     "A patient-centred dental clinic focused on listening, clear communication and carefully considered treatment options."
    ]
   },
@@ -329,7 +329,7 @@ export const PAGES = {
      "Dentistry Built Around People,",
      "Not Just Procedures."
     ],
-    "lead": "At Dr. Saeed Rostami Dental Clinic, the focus is on understanding each patient's needs, communicating clearly, and considering treatment options carefully.",
+    "lead": "At Grand Dental Clinic, the focus is on understanding each patient's needs, communicating clearly, and considering treatment options carefully.",
     "cta1": "Book a Consultation"
    }
   },
@@ -374,7 +374,7 @@ export const PAGES = {
   "photo": "",
   "seo": {
    "en": [
-    "Care Team | Dr. Saeed Rostami Dental Clinic",
+    "Care Team | Grand Dental Clinic",
     "Meet the team who will look after you."
    ]
   },
@@ -397,7 +397,7 @@ export const PAGES = {
      "h": "Care team",
      "items": [
       [
-       "Dr. Saeed Rostami",
+       "{{DOCTOR_NAME}}",
        "{{SPECIALTY}}"
       ],
       [
@@ -483,8 +483,8 @@ export const PAGES = {
   "photo": "/images/home/Contact.webp",
   "seo": {
    "en": [
-    "Book a Dental Consultation | Dr. Saeed Rostami",
-    "Request an appointment with Dr. Saeed Rostami Dental Clinic. Tell us your concern and our team will follow up on availability."
+    "Book a Dental Consultation | Grand Dental Clinic",
+    "Request an appointment with Grand Dental Clinic. Tell us your concern and our team will follow up on availability."
    ]
   },
   "hero": {
@@ -550,7 +550,7 @@ export const FOOT = {
    "[Verified email]",
    "[Verified address]"
   ],
-  "legal": "Dr. Saeed Rostami Dental Clinic. All rights reserved.",
+  "legal": "Grand Dental Clinic. All rights reserved.",
   "disc": "Website information is for general educational purposes and does not replace an individual dental examination or professional advice."
  }
 };

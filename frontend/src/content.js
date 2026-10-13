@@ -1,7 +1,7 @@
 export const UI = {
  "en": {
-  "brand": "Dr. Saeed Rostami",
-  "sub": "DENTAL CLINIC",
+  "brand": "Grand Dental Clinic",
+  "sub": "",
   "book": "Book a visit",
   "light": "Light",
   "dark": "Dark",
@@ -201,7 +201,7 @@ export const HOME = {
    "fine": "Sending a request does not confirm an appointment."
   },
   "foot": {
-   "about": "Dr. Saeed Rostami: health, beauty and ease along your smile's care journey, from the first conversation to care after treatment.",
+   "about": "Grand Dental Clinic: health, beauty and ease along your smile's care journey, from the first conversation to care after treatment.",
    "explore": "Explore",
    "care": "Clinic care",
    "stay": "Stay connected",

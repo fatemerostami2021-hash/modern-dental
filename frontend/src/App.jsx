@@ -36,7 +36,7 @@ function Header() {
       <div className="wrap bar">
         <Link to="/" className="logo" aria-label={u.brand}>
           <LogoMark />
-          <span><b><Wave text={u.brand} lang={lang} step={0.07} /></b><small>{u.sub}</small></span>
+          <span><b><Wave text={u.brand} lang={lang} step={0.07} /></b>{u.sub && <small>{u.sub}</small>}</span>
         </Link>
         <nav className={'nav' + (menu ? ' open' : '')} aria-label="Main">
           {ORDER.map((s) => <NavLink key={s} to={'/' + s} end={s === ''} className={({ isActive }) => (isActive ? 'act' : '')}><Wave text={PAGES[s].nav[lang]} lang={lang} step={0.035} /></NavLink>)}
