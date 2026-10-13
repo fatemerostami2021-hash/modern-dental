@@ -241,3 +241,4 @@ html{scroll-padding-top:100px}
 .tl-step.on .tl-dot{background:var(--teal);color:var(--teal-ink);border-color:var(--teal);box-shadow:0 0 0 6px color-mix(in srgb,var(--aqua) 25%,transparent)}
 .tl h3{font-size:1.2rem;margin:.1rem 0 .3rem}.tl p{margin:0}
 @media (max-width:1440px){.logo b{font-size:1.05rem}.nav{gap:clamp(.6rem,1.1vw,1.4rem)}.nav a{font-size:.88rem}}
+.nav .pill.show-sm{align-self:flex-start}

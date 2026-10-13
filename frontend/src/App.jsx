@@ -26,7 +26,7 @@ function LogoMark() {
 const SiteBackground = () => <div className="sitebg" aria-hidden="true"><i className="blob b1" /><i className="blob b2" /><i className="blob b3" /><i className="grid" /><i className="sun" /></div>;
 
 function Header() {
-  const { lang, theme, setTheme, cycleTheme } = useStore();
+  const { lang, theme, setTheme } = useStore();
   const u = UI[lang];
   const [menu, setMenu] = useState(false);
   const { pathname } = useLocation();
@@ -40,7 +40,7 @@ function Header() {
         </Link>
         <nav className={'nav' + (menu ? ' open' : '')} aria-label="Main">
           {ORDER.map((s) => <NavLink key={s} to={'/' + s} end={s === ''} className={({ isActive }) => (isActive ? 'act' : '')}><Wave text={PAGES[s].nav[lang]} lang={lang} step={0.035} /></NavLink>)}
-          <button className="btn ghost show-sm" onClick={cycleTheme}>Theme: {THEMES.find(([k]) => k === theme)[1]}</button>
+          <div className="pill show-sm" role="group" aria-label="Theme">{THEMES.map(([k, n]) => <button key={k} className={theme === k ? 'on' : ''} onClick={() => setTheme(k)}>{n}</button>)}</div>
           <Link to="/contact#request" className="btn primary show-sm">{u.book} ↗</Link>
         </nav>
         <div className="tools">
