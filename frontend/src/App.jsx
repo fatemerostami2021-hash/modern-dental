@@ -120,8 +120,28 @@ function Page({ slug }) {
 }
 const Slug = () => <Page slug={useParams().slug} />;
 
+// Scroll-triggered reveal: every card / heading slides in from its own direction when it enters the viewport.
+function useReveal(dep) {
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const els = [...document.querySelectorAll('main .shead, main .opt, main .steps > div, main .faqlist details, main .formcard, main .crow, main .closing, main .shot, main .ba, main .okcard')];
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    const count = new Map();
+    els.forEach((el) => {
+      const n = count.get(el.parentElement) || 0; count.set(el.parentElement, n + 1);
+      el.style.setProperty('--d', Math.min(n * 0.09, 0.6) + 's');
+      el.classList.add('rv');
+      el.addEventListener('transitionend', (e) => { if (e.propertyName === 'transform') el.classList.add('done'); });
+      io.observe(el);
+    });
+    return () => io.disconnect();
+  }, [dep]);
+}
+
 export default function App() {
   const { lang, theme } = useStore();
+  const { pathname } = useLocation();
+  useReveal(pathname);
   useEffect(() => { const h = document.documentElement; h.lang = lang; h.dir = lang === 'fa' ? 'rtl' : 'ltr'; h.dataset.theme = theme; }, [lang, theme]);
   const u = UI[lang];
   return (
